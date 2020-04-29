@@ -1,11 +1,15 @@
 /*jshint esversion:9*/
 
-export const addItemsToCart = (cartItems,itemToAdd) => {
+export const addItemToCart = (cartItems,itemToAdd) => {
   const existingItem = cartItems.find(cartItem => cartItem.id === itemToAdd.id);
 
   if(existingItem){
-  return  cartItems.map(cartItem => cartItem.id === itemToAdd.id ? {...cartItem,quantity:cartItem.quantity+1}:cartItem);
+  return  cartItems.map(
+    cartItem => cartItem.id === itemToAdd.id ? {
+      ...cartItem,quantity:cartItem.quantity+1
+    }:
+    cartItem);
   }
 
-  return [cartItems,{...itemToAdd,quantity:1}];
+  return [...cartItems,{...itemToAdd,quantity:1}];
 };

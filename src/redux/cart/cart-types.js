@@ -1,8 +1,9 @@
 /*jshint esversion:9*/
 
- const cartActionTypes = {
-  TOGGLE_CART_HIDDEN:'TOGGLE_CART_HIDDEN',
-  ADD_ITEM:'ADD_ITEM'
+
+const CartActionTypes = {
+  TOGGLE_CART_HIDDEN: 'TOGGLE_CART_HIDDEN',
+  ADD_ITEM: 'ADD_ITEM'
 };
 
-export default cartActionTypes;
+export default CartActionTypes;
