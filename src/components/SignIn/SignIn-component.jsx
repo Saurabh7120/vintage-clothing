@@ -5,6 +5,8 @@ import FormInput from '../form-input/form-input-component';
 import CustomButton from '../custom-button/custom-button-component';
 import './SignIn-styles.scss';
 import {auth, signInWithGoogle} from '../../firebase/firebase.utils';
+import {connect} from 'react-redux';
+import {googleSignInStart,emailSignInStart} from '../../redux/user/user-actions';
 
 class SignIn extends React.Component{
   constructor(){
@@ -19,15 +21,9 @@ class SignIn extends React.Component{
   handleSubmit=async event =>{
     event.preventDefault();
     const {email, password} = this.state;
-    try {
-      await auth.signInWithEmailAndPassword(email,password);
-      this.setState({
-        email:'',
-        password:''
-      })
-    } catch (error) {
-      console.error(error.message);
-    }
+    const {EmailSignInStart} = this.props;
+
+    EmailSignInStart(email,password);
   }
 
   handleChange = event=>{
@@ -38,6 +34,7 @@ class SignIn extends React.Component{
   }
 
   render(){
+    const {GoogleSignInStart} = this.props;
     return(
       <div className='sign-in'>
         <h2>I already have an account</h2>
@@ -48,7 +45,7 @@ class SignIn extends React.Component{
           <FormInput name='password' type='password' label='Password' value={this.state.password} handleChange={this.handleChange} required/>
           <div className='buttons'>
           <CustomButton children='SIGN IN' type='submit' value='Submit Form'/>
-          <CustomButton children='SIGN IN WITH GOOGLE' onClick={signInWithGoogle} isGoogleSignIn/>
+          <CustomButton type='button' children='SIGN IN WITH GOOGLE' onClick={GoogleSignInStart} isGoogleSignIn/>
           </div>
         </form>
       </div>
@@ -56,4 +53,9 @@ class SignIn extends React.Component{
   }
 }
 
-export default SignIn;
+const mapDispatchToProps = dispatch => ({
+  GoogleSignInStart: () => dispatch(googleSignInStart()),
+  EmailSignInStart: (email,password) => dispatch(emailSignInStart({email,password}))
+});
+
+export default connect(null,mapDispatchToProps)(SignIn);
